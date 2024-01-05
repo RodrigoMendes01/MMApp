@@ -7,16 +7,10 @@ interface ProductValuesTypes {
   brand: string,
   quantity: number,
   weightInGrams: number
-  imagePath: string,
+  imagePath?: string,
   category: string,
   inPromotion: boolean
-  ingredients: {
-  calories: string,
-  carbohydrates: string,
-  protein: string,
-  totalFat: string,
-  sodium: string,
-  }
+  ingredients: string | object
 }
 
 
@@ -27,24 +21,28 @@ class ProductRepository {
     return documents;
   }
 
-  async create(data: ProductValuesTypes) {
+  async create({
+    name,
+    description,
+    price,
+    brand,
+    quantity,
+    weightInGrams,
+    imagePath,
+    category,
+    inPromotion,
+    ingredients}: ProductValuesTypes) {
     const document = await Product.create({
-      name: data.name,
-      description: data.description,
-      price: data.price,
-      brand: data.brand,
-      quantity: data.quantity,
-      weightInGrams: data.weightInGrams,
-      imagePath: data.imagePath,
-      category: data.category,
-      inPromotion: data.inPromotion,
-      ingredients: {
-        calories: data.ingredients.calories,
-        carbohydrates: data.ingredients.carbohydrates,
-        protein: data.ingredients.protein,
-        totalFat: data.ingredients.totalFat,
-        sodium: data.ingredients.sodium
-      }
+      name,
+      description,
+      price,
+      brand,
+      quantity,
+      weightInGrams,
+      imagePath,
+      category,
+      inPromotion,
+      ingredients
     });
 
     return document;

@@ -21,11 +21,12 @@ class ProductController {
         brand,
         weightInGrams,
         quantity,
-        imagePath,
         category,
         inPromotion,
         ingredients
       } = request.body;
+
+      const imagePath = request.file?.filename;
 
       const product = await ProductRepository.create({
         name,
@@ -37,13 +38,14 @@ class ProductController {
         imagePath,
         category,
         inPromotion,
-        ingredients
+        ingredients: JSON.parse(ingredients)
       });
 
       response.json(product);
 
     } catch (error) {
-      throw new Error('Error to create product');
+      console.log(error);
+      response.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
