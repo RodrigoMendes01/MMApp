@@ -31,7 +31,8 @@ class ProductRepository {
     imagePath,
     category,
     inPromotion,
-    ingredients}: ProductValuesTypes) {
+    ingredients
+  }: ProductValuesTypes) {
     const document = await Product.create({
       name,
       description,

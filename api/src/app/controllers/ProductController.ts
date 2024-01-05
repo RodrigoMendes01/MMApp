@@ -8,7 +8,7 @@ class ProductController {
 
       return response.json(products);
     } catch (error) {
-      throw new Error('Error to list products');
+      response.status(500).json({error: 'Internal Server Error'});
     }
   }
 
@@ -44,13 +44,25 @@ class ProductController {
       response.json(product);
 
     } catch (error) {
-      console.log(error);
-      response.status(500).json({ error: 'Internal Server Error' });
+      response.status(500).json({error: 'Internal Server Error'});
     }
   }
 
-  show() {
-    return {};
+  async show(request: Request, response: Response) {
+    try {
+      const { productId } = request.params;
+
+      const product = await ProductRepository.findById(productId);
+
+      if(!product) {
+        return response.status(400).json({error: 'This product dosen`t exists'});
+      }
+
+      response.status(200).json(product);
+
+    } catch (error) {
+      response.status(500).json({error: 'Internal Server Error'});
+    }
   }
 
   update(request: Request, response: Response) {
