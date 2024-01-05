@@ -47,12 +47,31 @@ class ProductController {
     }
   }
 
+  show() {
+    return {};
+  }
+
   update(request: Request, response: Response) {
     return response.json({message: 'acesso rota atualizar /products'});
   }
 
-  delete(request: Request, response: Response) {
-    return response.json({message: 'acesso rota deletar /products'});
+  async delete(request: Request, response: Response) {
+    try {
+      const { productId } = request.params;
+
+      const product = await ProductRepository.findById(productId);
+
+      if (!product) {
+        return response.status(400).json({error: 'This product dosen`t exists'});
+      }
+
+      await ProductRepository.delete(productId);
+
+      response.sendStatus(204);
+    } catch (error) {
+      response.status(500).json({ error: 'Internal Server Error' });
+    }
+
   }
 }
 

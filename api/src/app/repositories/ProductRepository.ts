@@ -1,7 +1,6 @@
 import { Product } from '../models/Product';
 
 interface ProductValuesTypes {
-  id?: object,
   name: string,
   description: string,
   price: number,
@@ -47,6 +46,18 @@ class ProductRepository {
         sodium: data.ingredients.sodium
       }
     });
+
+    return document;
+  }
+
+  async findById(id: string) {
+    const document = await Product.findById(id);
+
+    return document;
+  }
+
+  async delete(id: string) {
+    const document = await Product.findByIdAndDelete(id);
 
     return document;
   }
