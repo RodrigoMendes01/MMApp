@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
 import ProductController from './app/controllers/ProductController';
+import { upload } from './utils/multer';
 
 export const router = Router();
 
@@ -13,6 +14,7 @@ router.delete('/profile/:id', UserController.delete);
 
 //PRODUCTS
 router.get('/products', ProductController.index);
-router.post('/products', ProductController.store);
-//router.delete('/products/:productId', ProductController.delete);
-//router.get('/products/:productId', ProductController.show);
+router.post('/products', upload.single('productImage'), ProductController.store);
+router.patch('products/:productId', ProductController.update);
+router.delete('/products/:productId', ProductController.delete);
+router.get('/products/:productId', ProductController.show);
