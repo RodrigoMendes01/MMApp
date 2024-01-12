@@ -65,8 +65,44 @@ class ProductController {
     }
   }
 
-  update(request: Request, response: Response) {
-    return response.json({message: 'acesso rota atualizar /products'});
+  async update(request: Request, response: Response) {
+    try {
+      const {
+        name,
+        description,
+        price,
+        brand,
+        weightInGrams,
+        quantity,
+        category,
+        inPromotion,
+        ingredients
+      } = request.body;
+
+      const { productId } = request.params;
+      console.log(productId);
+
+      const imagePath = request.file?.filename;
+
+      const product = await ProductRepository.update({
+        id: productId,
+        name,
+        price,
+        description,
+        brand,
+        weightInGrams,
+        quantity,
+        imagePath,
+        category,
+        inPromotion,
+        ingredients: JSON.parse(ingredients)
+      });
+
+      response.json(product);
+
+    } catch (error) {
+      response.status(500).json({error: 'Internal Server Error'});
+    }
   }
 
   async delete(request: Request, response: Response) {

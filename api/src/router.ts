@@ -15,6 +15,6 @@ router.delete('/profile/:id', UserController.delete);
 //PRODUCTS
 router.get('/products', ProductController.index);
 router.post('/products', upload.single('productImage'), ProductController.store);
-router.patch('products/:productId', ProductController.update);
+router.patch('/products/:productId', upload.single('productImage'), ProductController.update);
 router.delete('/products/:productId', ProductController.delete);
 router.get('/products/:productId', ProductController.show);
