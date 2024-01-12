@@ -52,13 +52,13 @@ class ProductController {
     try {
       const { productId } = request.params;
 
-      const product = await ProductRepository.findById(productId);
+      const productExists = await ProductRepository.findById(productId);
 
-      if(!product) {
+      if(!productExists) {
         return response.status(400).json({error: 'This product dosen`t exists'});
       }
 
-      response.status(200).json(product);
+      response.status(200).json(productExists);
 
     } catch (error) {
       response.status(500).json({error: 'Internal Server Error'});
@@ -67,6 +67,14 @@ class ProductController {
 
   async update(request: Request, response: Response) {
     try {
+      const { productId } = request.params;
+
+      const productExists = await ProductRepository.findById(productId);
+
+      if(!productExists) {
+        return response.status(400).json({error: 'This product dosen`t exists'});
+      }
+
       const {
         name,
         description,
@@ -78,9 +86,6 @@ class ProductController {
         inPromotion,
         ingredients
       } = request.body;
-
-      const { productId } = request.params;
-      console.log(productId);
 
       const imagePath = request.file?.filename;
 
