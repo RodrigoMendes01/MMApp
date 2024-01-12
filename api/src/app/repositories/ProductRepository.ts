@@ -1,6 +1,7 @@
 import { Product } from '../models/Product';
 
 interface ProductValuesTypes {
+  id?: string
   name: string,
   description: string,
   price: number,
@@ -34,6 +35,35 @@ class ProductRepository {
     ingredients
   }: ProductValuesTypes) {
     const document = await Product.create({
+      name,
+      description,
+      price,
+      brand,
+      quantity,
+      weightInGrams,
+      imagePath,
+      category,
+      inPromotion,
+      ingredients
+    });
+
+    return document;
+  }
+
+  async update({
+    id,
+    name,
+    description,
+    price,
+    brand,
+    quantity,
+    weightInGrams,
+    imagePath,
+    category,
+    inPromotion,
+    ingredients
+  }: ProductValuesTypes) {
+    const document = await Product.findByIdAndUpdate(id, {
       name,
       description,
       price,
